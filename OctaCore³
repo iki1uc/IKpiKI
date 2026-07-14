@@ -1,6 +1,14 @@
 (8 Achsen × 8 Räume × 8 Engines)
 
 A1–A8 = Achsen
+0 → axes
+1 → lage
+2 → ort
+3 → ghost
+4 → tmp
+5 → axes
+6 → lage
+...
 
 {
   "cubes": [
@@ -10,6 +18,14 @@ A1–A8 = Achsen
   ]
 }
 R1–R8 = Räume
+0 → axes
+1 → lage
+2 → ort
+3 → ghost
+4 → tmp
+5 → axes
+6 → lage
+...
 
 {
   "cubes": [
@@ -18,9 +34,25 @@ R1–R8 = Räume
     { "Phi": 0.8, "phi": 0.5, "phi2": 0.2, "phiinfty": 0.7 }
   ]
 }
+0 → axes
+1 → lage
+2 → ort
+3 → ghost
+4 → tmp
+5 → axes
+6 → lage
+...
 
 
 E1–E8 = Engines
+0 → axes
+1 → lage
+2 → ort
+3 → ghost
+4 → tmp
+5 → axes
+6 → lage
+...
 
 
 {
