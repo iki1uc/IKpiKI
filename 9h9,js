@@ -1,31 +1,5 @@
-// 9h9.js – Identitäts-Engine für 9hoch9
-// Nutzt die Meta-Geometrie aus 81_81_1
-
 import { geoMeta } from "./81_81_1.js";
-import { ghost5E } from "./ghost.js";
-import { updateTmp } from "./tmp.js";
 
 export function respo9hoch9(Phi, phi, phi2, phiinfty) {
-
-    // Holen der vollständigen Meta-Geometrie
-    const meta = geoMeta(Phi, phi, phi2, phiinfty);
-
-    // Ghost-Berechnung bleibt unverändert
-    const ghost = ghost5E(Phi, phi, phi2, phiinfty);
-
-    // Update der temporären Engine-Daten
-    updateTmp(
-        meta.lage.stabil,   // stabiler LAGE-Wert
-        meta.axes,          // Achsen
-        meta.axes.avg,      // Durchschnitts-Achse
-        ghost.orbit         // Ghost-Orbit
-    );
-
-    // Rückgabe der vollständigen 9hoch9-Struktur
-    return {
-        cube: "9hoch9",
-        meta,
-        ghost,
-        tmp: "aktualisiert"
-    };
+    return geoMeta(Phi, phi, phi2, phiinfty);
 }
