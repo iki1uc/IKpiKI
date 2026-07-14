@@ -1,8 +1,7 @@
-{
-  "id": "81_81_1",
-  "version": "1.0",
-  "type": "matrix",
-  "description": "81-fach Meta-LAGE und Achsen Archiv",
-  "source": "9hoch9",
-  "status": "minimal-ready"
+// 9hoch9 – Identität, Übergang zu 81_81_1
+
+import { geoMeta } from "./81_81_1.js";
+
+export function respo9hoch9(Phi, phi, phi2, phiinfty) {
+    return geoMeta(Phi, phi, phi2, phiinfty);
 }
