@@ -1,0 +1,21 @@
+// 81_81_1 / geo.js
+// Minimal: nur Formeln, keine Visualisierung
+
+export function geoAxes(Phi, phi, phi2, phiinfty) {
+    return {
+        Phi,
+        phi,
+        phi2,
+        phiinfty,
+        avg: (Phi + phi + phi2 + phiinfty) / 4
+    };
+}
+
+export function geoLAGE(Phi, phi, phi2, phiinfty) {
+    return {
+        x: Phi * 9,
+        y: phi * 9,
+        z: phiinfty * 9,
+        stabil: phi2
+    };
+}
