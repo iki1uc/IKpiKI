@@ -1,6 +1,3 @@
-AttachmentWert =
-(SCHACH.position)
-+ (SKAT.wert)
-+ (ROME.ursacheWirkung)
-+ (inPIme.prime)
-+ (CLOU.calc)
+export function attachmentWert(SCHACH, SKAT, ROME, inPIme, CLOU) {
+    return SCHACH + SKAT + ROME + inPIme + CLOU;
+}
