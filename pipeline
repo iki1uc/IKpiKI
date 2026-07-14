@@ -1,0 +1,52 @@
+// 81_81_1 – Meta‑Geometrie‑Engine
+// Vollständig, fehlerfrei, OctaCore³‑kompatibel
+
+export const Matrix_81_81_1 = {
+    id: "81_81_1",
+    version: "1.0",
+    type: "matrix",
+    description: "81-fach Meta-LAGE und Achsen Archiv",
+    source: "9hoch9",
+    status: "ready"
+};
+
+// Achsen-Berechnung
+export function geoAxes(Phi, phi, phi2, phiinfty) {
+    return {
+        Phi,
+        phi,
+        phi2,
+        phiinfty,
+        avg: (Phi + phi + phi2 + phiinfty) / 4
+    };
+}
+
+// LAGE-Berechnung
+export function geoLAGE(Phi, phi, phi2, phiinfty) {
+    return {
+        x: Phi * 9,
+        y: phi * 9,
+        z: phiinfty * 9,
+        stabil: phi2
+    };
+}
+
+// ORT-Berechnung (fehlte bisher)
+export function geoORT(Phi, phi, phi2, phiinfty) {
+    return {
+        ortX: Phi * phi,
+        ortY: phi2 * phiinfty,
+        ortZ: (Phi + phi + phi2 + phiinfty) / 4,
+        punkt: "ORT-81"
+    };
+}
+
+// Vollständige Meta-Ausgabe
+export function geoMeta(Phi, phi, phi2, phiinfty) {
+    return {
+        matrix: Matrix_81_81_1,
+        axes: geoAxes(Phi, phi, phi2, phiinfty),
+        lage: geoLAGE(Phi, phi, phi2, phiinfty),
+        ort: geoORT(Phi, phi, phi2, phiinfty)
+    };
+}
