@@ -1,0 +1,101 @@
+<!--
+  Page Status Checker
+  © iki1uc — MIT License (see LICENSE file in repo)
+  https://github.com/iki1uc
+-->
+<script>
+// Page Status Checker
+
+// Possible status types and their properties
+const STATUS_TYPES = {
+    OK:      { priority: 1, category: "reachable",    cause: "Page exists",       effect: "Normal",     impact: 0 },
+    MISSING: { priority: 2, category: "wrong-path",   cause: "Path incorrect",    effect: "Redirect",   impact: 1 },
+    ERROR:   { priority: 9, category: "network",      cause: "Network error",     effect: "Abort",      impact: 9 },
+    READY:   { priority: 3, category: "ready",        cause: "Ready to start",    effect: "Start",      impact: 2 },
+    COMPATIBLE: { priority: 4, category: "compatible",cause: "Compatible",        effect: "Synergy",    impact: 3 },
+    FIXED:   { priority: 5, category: "fixed",        cause: "Repaired",          effect: "Stable",     impact: 2 },
+    DONE:    { priority: 6, category: "done",         cause: "Completed",         effect: "Idle",       impact: 1 },
+    HELP:    { priority: 7, category: "assistance",   cause: "Needs assistance",  effect: "Support",    impact: 2 },
+    UNCLEAR: { priority: 8, category: "unclear",       cause: "Unclear",          effect: "Analyze",    impact: 5 }
+};
+
+// List of pages to check
+const PAGES = [
+    "index.html",
+    "DOM/DOM.html",
+    "MARKT/markt.html",
+    "BOERSE/boerse.html",
+    "EVO/EVO.html",
+    "EOS/EOS.html",
+    "funktion/funktion.html",
+    "respo/respo.html",
+    "tool48/pyramide.html"
+];
+
+// Checks whether a single page is reachable
+async function checkPage(path) {
+    try {
+        const res = await fetch(path, { method: "HEAD" });
+        return res.ok ? "OK" : "MISSING";
+    } catch {
+        return "ERROR";
+    }
+}
+
+// Builds a diagnostic report for one page
+function diagnosePage(status, page) {
+    const s = STATUS_TYPES[status] || STATUS_TYPES.UNCLEAR;
+    return {
+        page,
+        status,
+        priority: s.priority,
+        category: s.category,
+        cause: s.cause,
+        effect: s.effect,
+        impact: s.impact
+    };
+}
+
+// Compares two pages and rates how well they "match"
+function comparePages(a, b) {
+    return {
+        pair: a.page + " <-> " + b.page,
+        categoryMatch: a.category === b.category ? "match" : "different",
+        priorityMatch: Math.abs(a.priority - b.priority) <= 2 ? "close" : "far",
+        impactMatch: Math.abs(a.impact - b.impact) <= 2 ? "close" : "far",
+        compatibility:
+            (a.status === "OK" && b.status === "OK") ? "HIGH" :
+            (a.status === "MISSING" && b.status === "MISSING") ? "LOW" :
+            (a.status === "COMPATIBLE" && b.status === "COMPATIBLE") ? "SYNC" :
+            (a.status === "READY" && b.status === "READY") ? "START" :
+            "NONE"
+    };
+}
+
+// Builds all pairwise comparisons
+function buildComparisonMatrix(results) {
+    const matrix = [];
+    for (let i = 0; i < results.length; i++) {
+        for (let j = i + 1; j < results.length; j++) {
+            matrix.push(comparePages(results[i], results[j]));
+        }
+    }
+    return matrix;
+}
+
+// Main run
+(async () => {
+    const results = [];
+    for (const page of PAGES) {
+        const status = await checkPage(page);
+        results.push(diagnosePage(status, page));
+    }
+    const matrix = buildComparisonMatrix(results);
+    document.getElementById("status-report").innerHTML =
+        JSON.stringify({
+            pages: results,
+            comparisons: matrix
+        }, null, 2);
+})();
+</script>
+<pre id="status-report">Loading status report…</pre>
